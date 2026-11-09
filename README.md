@@ -65,7 +65,8 @@ SWE_A1/
 │   ├── class_diagram.md          # Complete Mermaid class diagram
 │   ├── oop_concepts.md           # OOP concepts mapping table for lab records
 │   ├── requirements.md           # Software Requirements Specification (SRS)
-│   └── sample_output.md          # Real console test run transcript
+│   ├── sample_output.md          # Real console test run transcript
+│   └── viva_questions.md         # Comprehensive Viva Voce Q&A preparation guide
 ├── src/                          # Java source code
 │   ├── exception/                # Custom checked exceptions
 │   │   ├── DuplicateFeedbackException.java
@@ -96,6 +97,8 @@ SWE_A1/
 │   └── util/                     # Validation rules and console helpers
 │       ├── InputHelper.java
 │       └── Validator.java
+├── build_and_run.bat             # One-click Windows build & run script
+├── build_and_run.sh              # One-click Linux/macOS build & run script
 └── README.md                     # Project overview and run guide
 ```
 
