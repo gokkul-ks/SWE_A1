@@ -20,3 +20,4 @@ echo ""
 
 # Run application
 java -cp bin main.Main
+

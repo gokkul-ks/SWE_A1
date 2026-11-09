@@ -118,3 +118,4 @@ This guide provides targeted questions and high-scoring answers commonly asked b
 #### Q15: Why is `submitFeedback()` marked `synchronized`?
 > **Answer:**  
 > Because the background auto-save thread may read/save data while a student is submitting new feedback. The `synchronized` keyword ensures thread safety and prevents race conditions or `ConcurrentModificationException`.
+
