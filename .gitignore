@@ -1,12 +1,31 @@
-# Compiled Java class files
+# Compiled Java bytecode
 bin/
 *.class
 
-# Operating System and IDE files
-.DS_Store
-Thumbs.db
-*.log
+# Storage / Local Database containing user credentials and records
+data/*.csv
+data/*
+!data/.gitkeep
+
+# IDE and Editor configurations
 .vscode/
 .idea/
 *.iml
+*.iws
+*.ipr
+.project
+.classpath
+.settings/
 
+# Operating System temporary files
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp
+*.bak
+*.swp
+
+# Logs and environment
+*.log
+.env
+.env.*

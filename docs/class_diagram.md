@@ -206,6 +206,71 @@ classDiagram
         +pressEnterToContinue() void
     }
 
+    %% GUI Layer (Swing Frames & Panels)
+    class MainFrame {
+        -AuthService authService
+        -FeedbackService feedbackService
+        -ReportService reportService
+        -AutoSaveService autoSaveService
+        -CardLayout cardLayout
+        -JPanel rootPanel
+        +MainFrame(authService, feedbackService, reportService, autoSaveService)
+        -setupViews() void
+        -handleUserAuthenticated(user) void
+        -handleLogout() void
+        -handleApplicationExit() void
+    }
+
+    class LoginPanel {
+        -AuthService authService
+        -Consumer~User~ onLoginSuccess
+        -CardLayout cardLayout
+        +LoginPanel(authService, onLoginSuccess)
+        -handleLogin() void
+        -handleRegister() void
+    }
+
+    class StudentDashboard {
+        -Student student
+        -FeedbackService feedbackService
+        -Runnable onLogout
+        +StudentDashboard(student, feedbackService, onLogout)
+        -createSubmitPanel() JPanel
+        -createHistoryPanel() JPanel
+        -createRolePanel() JPanel
+        -handleSubmitFeedback() void
+        -loadStudentHistory() void
+    }
+
+    class AdminDashboard {
+        -Admin admin
+        -FeedbackService feedbackService
+        -ReportService reportService
+        -Runnable onLogout
+        +AdminDashboard(admin, feedbackService, reportService, onLogout)
+        -createAllSubmissionsPanel() JPanel
+        -createFilterPanel() JPanel
+        -createReportPanel() JPanel
+        -loadAllSubmissions() void
+        -loadExecutiveReport() void
+    }
+
+    class IconFactory {
+        <<final>>
+        +createLogoIcon(size, color)$ Icon
+        +createStarIcon(size, fill, border)$ Icon
+        +createSubmitIcon(size, color)$ Icon
+        +createHistoryIcon(size, color)$ Icon
+        +createClipboardIcon(size, color)$ Icon
+        +createFilterIcon(size, color)$ Icon
+        +createChartIcon(size, color)$ Icon
+        +createInfoIcon(size, color)$ Icon
+        +createLogoutIcon(size, color)$ Icon
+        +createRefreshIcon(size, color)$ Icon
+        +createCheckIcon(size, color)$ Icon
+        +createCrossIcon(size, color)$ Icon
+    }
+
     class Main {
         -static Scanner scanner$
         -static InputHelper input$
@@ -214,13 +279,23 @@ classDiagram
         -static ReportService reportService$
         -static AutoSaveService autoSaveService$
         +main(String[] args)$ void
+        -runConsoleMenu()$ void
     }
 
+    Main ..> MainFrame
     Main ..> AuthService
     Main ..> FeedbackService
     Main ..> ReportService
     Main ..> AutoSaveService
-    Main ..> InputHelper
+    MainFrame *-- LoginPanel
+    MainFrame *-- StudentDashboard
+    MainFrame *-- AdminDashboard
+    StudentDashboard ..> IconFactory
+    AdminDashboard ..> IconFactory
+    LoginPanel ..> IconFactory
+    StudentDashboard ..> FeedbackService
+    AdminDashboard ..> FeedbackService
+    AdminDashboard ..> ReportService
     AuthService ..> Storage
     FeedbackService ..> Storage
     FeedbackService o-- FeedbackTarget

@@ -19,15 +19,20 @@ import storage.Storage;
 import storage.UserFileStorage;
 import util.InputHelper;
 
+import ui.MainFrame;
+
+import javax.swing.SwingUtilities;
+import java.awt.GraphicsEnvironment;
 import java.util.List;
 import java.util.Scanner;
 
 /**
  * Main application entry point for the Campus Feedback System.
- * Contains the console menu loop and handles top-level user interactions.
+ * Launches the modern Java Swing GUI by default, while supporting
+ * a headless fallback / CLI console mode via the --cli flag.
  * 
  * OOP Concepts Demonstrated:
- * 1. Encapsulation: Modular separation of menu routines.
+ * 1. Encapsulation: Modular separation of menu routines and UI launching.
  * 2. Polymorphism: References through interfaces (Storage<T>, Reportable) and base User.
  * 3. Exception Handling: Comprehensive try-catch-finally blocks with custom checked exceptions.
  * 4. Method Overriding in Action: Dynamic method dispatch for user.getRoleDescription().
@@ -41,9 +46,6 @@ public class Main {
     private static AutoSaveService autoSaveService;
 
     public static void main(String[] args) {
-        scanner = new Scanner(System.in);
-        input = new InputHelper(scanner);
-
         // Initialize Polymorphic Storage instances
         Storage<User> userStorage = new UserFileStorage("data/users.csv");
         Storage<Feedback> feedbackStorage = new FeedbackFileStorage("data/feedback.csv");
@@ -56,6 +58,23 @@ public class Main {
         // Start background auto-save daemon thread (demonstrates multithreading)
         autoSaveService = new AutoSaveService(authService, feedbackService, 30);
         autoSaveService.start();
+
+        // Check if user requested console mode or if graphics environment is headless
+        boolean forceCli = args.length > 0 && (args[0].equalsIgnoreCase("--cli") || args[0].equalsIgnoreCase("--console"));
+        if (forceCli || GraphicsEnvironment.isHeadless()) {
+            runConsoleMenu();
+        } else {
+            // Launch Modern Java Swing GUI Frame on Event Dispatch Thread (EDT)
+            SwingUtilities.invokeLater(() -> {
+                MainFrame frame = new MainFrame(authService, feedbackService, reportService, autoSaveService);
+                frame.setVisible(true);
+            });
+        }
+    }
+
+    private static void runConsoleMenu() {
+        scanner = new Scanner(System.in);
+        input = new InputHelper(scanner);
 
         System.out.println("========================================================");
         System.out.println("        WELCOME TO CAMPUS FEEDBACK SYSTEM");
@@ -88,7 +107,6 @@ public class Main {
         } catch (Exception e) {
             System.err.println("Unexpected runtime error: " + e.getMessage());
         } finally {
-            // Demonstrates finally block: Ensures resources and background threads are closed
             if (autoSaveService != null) {
                 autoSaveService.stop();
             }

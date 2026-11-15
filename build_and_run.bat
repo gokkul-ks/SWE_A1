@@ -14,7 +14,7 @@ if not exist "bin" (
 )
 
 REM Compile all Java packages into bin
-javac -d bin src/exception/*.java src/model/*.java src/storage/*.java src/service/*.java src/util/*.java src/main/*.java
+javac -d bin src/exception/*.java src/model/*.java src/storage/*.java src/service/*.java src/util/*.java src/ui/*.java src/main/*.java
 
 if %ERRORLEVEL% NEQ 0 (
     echo.
