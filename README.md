@@ -217,7 +217,7 @@ java -cp bin main.Main --cli
 
 ## 👤 Author & Contributor
 
-- **Name:** Gokkul K S
+- **Team mates:** Gokkul K S, Mithun Shanjai C R, Jaichand K J
 - **GitHub:** [@gokkul-ks](https://github.com/gokkul-ks)
 - **Project:** Software Engineering Mini-Project & OOP Lab Record Submission
 
